@@ -20,6 +20,8 @@ FFFaceDetector::~FFFaceDetector()
 
 void FFFaceDetector::init()
 {
+    return;
+
     faceDetector = new cv::CascadeClassifier();
     profileDetector = new cv::CascadeClassifier();
     int ret = faceDetector->load("../videoCapture/3rdparty/data/lbpcascades/lbpcascade_frontalface.xml");

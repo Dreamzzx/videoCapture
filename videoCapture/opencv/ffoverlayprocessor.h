@@ -1,7 +1,12 @@
 #ifndef FFOVERLAYPROCESSOR_H
 #define FFOVERLAYPROCESSOR_H
 
+#ifdef win32
 #include<opencv2/opencv.hpp>
+#elif linux
+#include <opencv4/opencv2/opencv.hpp>
+#endif
+
 #include"ffvideoadapter.h"
 
 class FFOverlayProcessor

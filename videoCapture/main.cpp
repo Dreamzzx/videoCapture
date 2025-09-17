@@ -2,6 +2,7 @@
 #include <QApplication>
 #include<QIcon>
 #include"capture/ffcaptureutil.h"
+#include <QtGlobal>
 
 
 int main(int argc, char *argv[])

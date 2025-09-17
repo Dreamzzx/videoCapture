@@ -3,7 +3,7 @@
 #include "filter/ffvfilter.h"
 #include"capture/ffcapturecontext.h"
 #include"ffrenderwidget.h"
-#include"render./ffvrender.h"
+#include"render/ffvrender.h"
 #include"event/ffstartevent.h"
 #include"queue/ffeventqueue.h"
 #include"event/ffpauseevent.h"

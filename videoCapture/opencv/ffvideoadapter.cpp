@@ -1,4 +1,5 @@
 ﻿#include "ffvideoadapter.h"
+#include <QtGlobal>
 
 FFVideoAdapter::FFVideoAdapter()
 {
@@ -7,16 +8,28 @@ FFVideoAdapter::FFVideoAdapter()
 
 FFVideoAdapter::~FFVideoAdapter()
 {
+#ifdef Q_OS_WIN
     if(sws_ctx){
         sws_free_context(&sws_ctx);
     }
+#elif defined(Q_OS_LINUX)
+    if(sws_ctx){
+        sws_freeContext(sws_ctx);
+    }
+#endif
 }
 
 void FFVideoAdapter::initSws(int width, int height)
 {
+#ifdef Q_OS_WIN
     if(sws_ctx){
         sws_free_context(&sws_ctx);
     }
+#elif defined(Q_OS_LINUX)
+    if(sws_ctx){
+        sws_freeContext(sws_ctx);
+    }
+#endif
     sws_ctx = sws_getContext(
                 width, height, AV_PIX_FMT_BGR24,
                 width, height, AV_PIX_FMT_YUV420P,

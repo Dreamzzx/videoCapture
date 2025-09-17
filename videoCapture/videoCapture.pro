@@ -1,5 +1,5 @@
 #-------------------------------------------------
-QT       += core gui
+QT       += core gui openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -118,27 +118,48 @@ HEADERS += \
 FORMS += \
         ui/ffcapwindow.ui \
 
-
-  LIBS+= \
-    -L$$PWD\3rdparty\ffmpeg-amf\lib
-
-    LIBS+=$$PWD\3rdparty\opencv\lib\libopencv_*.a
-
-
+win32{
     LIBS+= \
-        -lavcodec \
-        -lavdevice \
-        -lavfilter \
-        -lavformat  \
-        -lavutil \
-        -lswresample \
-        -lswscale \
+      -L$$PWD\3rdparty\ffmpeg-amf\lib
 
-    LIBS += -lOpengl32 \
-              -lglu32
+      LIBS+=$$PWD\3rdparty\opencv\lib\libopencv_*.a
 
-INCLUDEPATH += $$PWD/3rdparty/opencv/include
-INCLUDEPATH += $$PWD/3rdparty/ffmpeg-amf/include
+
+      LIBS+= \
+          -lavcodec \
+          -lavdevice \
+          -lavfilter \
+          -lavformat  \
+          -lavutil \
+          -lswresample \
+          -lswscale \
+
+      LIBS += -lOpengl32 \
+                -lglu32
+        INCLUDEPATH += $$PWD/3rdparty/opencv/include
+        INCLUDEPATH += $$PWD/3rdparty/ffmpeg-amf/include
+}
+
+linux{
+
+LIBS+= -L/usr/lib/x86_64-linux-gnu/ \
+    -lavcodec \
+    -lavdevice \
+    -lavfilter \
+    -lavformat  \
+    -lavutil \
+    -lswresample \
+    -lswscale \
+
+LIBS += -lopencv_core\
+        -lopencv_imgproc \
+        -lopencv_objdetect\
+
+ INCLUDEPATH += /usr/include/x86_64-linux-gnu
+ INCLUDEPATH += /usr/include/opencv4/
+}
+
+
 
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
