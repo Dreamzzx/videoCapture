@@ -2,6 +2,7 @@
 
 #include<QPainter>
 #include<QMouseEvent>
+#include <QtGlobal>
 #include"ffcapwindow.h"
 
 FFCapHeaderWidget::FFCapHeaderWidget(QWidget *parent) :
@@ -27,8 +28,17 @@ void FFCapHeaderWidget::paintEvent(QPaintEvent *event)
 void FFCapHeaderWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
+#ifdef Q_OS_WIN
         dragPos = event->globalPos() - this->parentWidget()->frameGeometry().topLeft(); // 记录鼠标按下时相对窗口左上角的偏移
         initialGeometry = this->parentWidget()->geometry(); // 记录窗口初始几何信息
+#elif defined(Q_OS_LINUX)
+        QWidget *parent = this->parentWidget();
+        if (parent) {
+            // 鼠标在父窗口中的相对位置 = 鼠标全局位置 - 父窗口全局位置
+            dragPos = event->globalPos() - parent->mapToGlobal(parent->pos());
+            initialGeometry = parent->geometry();
+        }
+#endif
         resizeDir = getResizeDirction(event->pos());
         event->accept();
     }

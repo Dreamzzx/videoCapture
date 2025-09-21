@@ -19,6 +19,7 @@ class FFEventLoop;
 class FFThreadPool;
 class FFCaptureContext;
 
+#ifdef Q_OS_WIN
 namespace FFCaptureURLS{
     static std::string CAMERA1_URL = "video=HP Wide Vision HD Camera";
     static std::string CAMERA2_URL = "video=USB2.0 Camera";
@@ -26,6 +27,16 @@ namespace FFCaptureURLS{
     static std::string AUDIO_URL = "audio=virtual-audio-capturer";
     static std::string MICROPHONE_URL = "audio=Microphone Array (Realtek(R) Audio)";
 };
+#elif defined(Q_OS_LINUX)
+namespace FFCaptureURLS{
+static std::string CAMERA1_URL = "video=HP Wide Vision HD Camera";
+static std::string CAMERA2_URL = "video=USB2.0 Camera";
+static std::string SCREEN_URL = ":0.0";
+static std::string AUDIO_URL = "hw:0,0";
+static std::string MICROPHONE_URL = "hw:0,0";
+};
+#endif
+
 
 class FFCaptureUtil : public QObject
 {

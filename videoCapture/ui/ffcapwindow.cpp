@@ -180,7 +180,6 @@ void FFCapWindow::paintEvent(QPaintEvent *event)
 
 void FFCapWindow::mousePressEvent(QMouseEvent *event)
 {
-
     if (event->button() == Qt::LeftButton) {
         dragPos = event->globalPos() - frameGeometry().topLeft(); // 记录鼠标按下时相对窗口左上角的偏移
         initialGeometry = this->geometry(); // 记录窗口初始几何信息
@@ -603,12 +602,22 @@ void FFCapWindow::on_cameraComboBox_currentIndexChanged(int index)
             adjustStatckNumber(CAMERA);
 
             FFEvent* openSourceEv = nullptr;
+
+#ifdef Q_OS_WIN
             if(ui->cameraComboBox->currentIndex() == 1){
                 openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA1_URL,"dshow");
             }
             else if(ui->cameraComboBox->currentIndex() == 2){
                 openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA2_URL,"dshow");
             }
+#elif defined(Q_OS_LINUX)
+            if(ui->cameraComboBox->currentIndex() == 1){
+                openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA1_URL,"x11grab");
+            }
+            else if(ui->cameraComboBox->currentIndex() == 2){
+                openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA2_URL,"x11grab");
+            }
+#endif
             evQueue->enqueue(openSourceEv);
 
             changeUIState(ui->cameraComboBox);
@@ -640,12 +649,21 @@ void FFCapWindow::on_cameraComboBox_currentIndexChanged(int index)
             adjustStatckNumber(CAMERA);
 
             FFEvent* openSourceEv = nullptr;
+#ifdef Q_OS_WIN
             if(ui->cameraComboBox->currentIndex() == 1){
                 openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA1_URL,"dshow");
             }
             else if(ui->cameraComboBox->currentIndex() == 2){
                 openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA2_URL,"dshow");
             }
+#elif defined(Q_OS_LINUX)
+            if(ui->cameraComboBox->currentIndex() == 1){
+                openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA1_URL,"x11rgab");
+            }
+            else if(ui->cameraComboBox->currentIndex() == 2){
+                openSourceEv = new FFOpenSourceEvent(captureCtx,CAMERA,FFCaptureURLS::CAMERA2_URL,"x11rgab");
+            }
+#endif
             evQueue->enqueue(openSourceEv);
 
             changeUIState(ui->cameraComboBox);
@@ -661,8 +679,11 @@ void FFCapWindow::on_screenCheckBox_toggled(bool checked)
             screenWidget->setVisible(true);
             renderWidgetSet.insert(screenWidget);
             adjustStatckNumber(SCREEN);
-
+#ifdef Q_OS_WIN
             FFEvent* openSourceEv = new FFOpenSourceEvent(captureCtx,SCREEN,FFCaptureURLS::SCREEN_URL,"dshow");
+#elif defined(Q_OS_LINUX)
+            FFEvent* openSourceEv = new FFOpenSourceEvent(captureCtx,SCREEN,FFCaptureURLS::SCREEN_URL,"x11grab");
+#endif
             evQueue->enqueue(openSourceEv);
             changeUIState(ui->screenCheckBox);
         }
@@ -725,8 +746,13 @@ void FFCapWindow::on_videoCheckBox_toggled(bool checked)
 
 void FFCapWindow::on_microphoneCheckBox_toggled(bool checked)
 {
+
     if(checked){
+#ifdef Q_OS_WIN
         FFEvent* openSourceEv = new FFOpenSourceEvent(captureCtx,MICROPHONE,FFCaptureURLS::MICROPHONE_URL,"dshow");
+#elif defined(Q_OS_LINUX)
+        FFEvent* openSourceEv = new FFOpenSourceEvent(captureCtx,MICROPHONE,FFCaptureURLS::MICROPHONE_URL,"alsa");
+#endif
         evQueue->enqueue(openSourceEv);
     }
     else{

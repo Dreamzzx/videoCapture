@@ -115,8 +115,8 @@ void *FFGLRenderWidget::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN16FFGLRenderWidgetE_t>.strings))
         return static_cast<void*>(this);
-    if (!strcmp(_clname, "QOpenGLFunctions_4_5_Core"))
-        return static_cast< QOpenGLFunctions_4_5_Core*>(this);
+    if (!strcmp(_clname, "QOpenGLFunctions_4_1_Core"))
+        return static_cast< QOpenGLFunctions_4_1_Core*>(this);
     return QOpenGLWidget::qt_metacast(_clname);
 }
 

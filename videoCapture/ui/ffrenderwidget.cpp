@@ -261,13 +261,13 @@ void FFRenderWidget::paintEvent(QPaintEvent *event) {
     painter.drawRect(this->rect());
 
 }
-// void FFRenderWidget::enterEvent(QEvent *event)
-// {
-//     //    std::cout << "enterEvent" << std::endl;
-//     isFoucs = true;
-//     update();
-//     QWidget::enterEvent(event);
-// }
+void FFRenderWidget::enterEvent(QEnterEvent *event)
+{
+    //    std::cout << "enterEvent" << std::endl;
+    isFoucs = true;
+    update();
+    QWidget::enterEvent(event);
+}
 
 void FFRenderWidget::leaveEvent(QEvent *event)
 {

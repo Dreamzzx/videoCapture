@@ -2,17 +2,19 @@
 #define FFGLRENDERWIDGET_H
 
 #include <QOpenGLWidget>
+#include <QtGlobal>
 #include <QOpenGLShaderProgram>
 #include <QVector>
 #include <QOpenGLTexture>
-#include <QOpenGLFunctions_4_5_Core>
+
+#include <QOpenGLFunctions_4_1_Core>
 #include<iostream>
 
 extern "C"{
 #include<libavformat/avformat.h>
 }
 
-class FFGLRenderWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_5_Core
+class FFGLRenderWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_1_Core
 {
     Q_OBJECT
 

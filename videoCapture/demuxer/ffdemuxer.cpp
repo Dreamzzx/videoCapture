@@ -176,6 +176,7 @@ void FFDemuxer::initDemuxer()
     else if(type == SCREEN){
         //        av_dict_set(&opts, "fflags", "nobuffer", 0);
         av_dict_set(&opts, "rtbufsize", "1024", 0);
+        //av_dict_set(&opts,"video_size","1280x799",0);
         av_dict_set(&opts,"threads","8",0);
         av_dict_set(&opts, "framerate", "30", 0);
     }
@@ -185,6 +186,10 @@ void FFDemuxer::initDemuxer()
     }
 
     inputFmt = av_find_input_format(format.c_str());
+    if (!inputFmt) {
+        fprintf(stderr, "不支持的格式: %s\n", format.c_str());
+        return;
+    }
     int ret = avformat_open_input(&fmtCtx,url.c_str(),inputFmt,&opts);
     if(ret < 0){
         avformat_close_input(&fmtCtx);

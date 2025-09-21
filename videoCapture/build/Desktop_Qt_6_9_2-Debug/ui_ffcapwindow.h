@@ -1198,7 +1198,7 @@ public:
 "}"));
         microphoneVlomeSlider->setMaximum(200);
         microphoneVlomeSlider->setValue(99);
-        microphoneVlomeSlider->setOrientation(Qt::Horizontal);
+        microphoneVlomeSlider->setOrientation(Qt::Orientation::Horizontal);
 
         horizontalLayout_15->addWidget(microphoneVlomeSlider);
 
@@ -1243,7 +1243,7 @@ public:
 "}"));
         audioVolumeSlider->setMaximum(200);
         audioVolumeSlider->setValue(99);
-        audioVolumeSlider->setOrientation(Qt::Horizontal);
+        audioVolumeSlider->setOrientation(Qt::Orientation::Horizontal);
 
         horizontalLayout_15->addWidget(audioVolumeSlider);
 
@@ -1362,7 +1362,7 @@ public:
                         " \344\277\235\346\214\201\345\234\206\345\275\242 */\n"
 "}"));
         smoothSlider->setMaximum(5);
-        smoothSlider->setOrientation(Qt::Horizontal);
+        smoothSlider->setOrientation(Qt::Orientation::Horizontal);
 
         horizontalLayout_13->addWidget(smoothSlider);
 
@@ -1406,7 +1406,7 @@ public:
                         " \344\277\235\346\214\201\345\234\206\345\275\242 */\n"
 "}"));
         whiteSlider->setMaximum(5);
-        whiteSlider->setOrientation(Qt::Horizontal);
+        whiteSlider->setOrientation(Qt::Orientation::Horizontal);
 
         horizontalLayout_13->addWidget(whiteSlider);
 
@@ -1465,7 +1465,7 @@ public:
 "	color:#A0A0A0;\n"
 "    background-color: transparent;\n"
 "}    "));
-        captureProcessLabel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        captureProcessLabel->setAlignment(Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter);
 
         horizontalLayout_14->addWidget(captureProcessLabel);
 

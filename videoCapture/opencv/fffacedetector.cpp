@@ -1,5 +1,5 @@
 #include "fffacedetector.h"
-
+#include <qglobal.h>
 FFFaceDetector::FFFaceDetector()
 {
     smoothValue = 0;
@@ -20,10 +20,9 @@ FFFaceDetector::~FFFaceDetector()
 
 void FFFaceDetector::init()
 {
-    return;
-
     faceDetector = new cv::CascadeClassifier();
     profileDetector = new cv::CascadeClassifier();
+#ifdef Q_OS_WIN
     int ret = faceDetector->load("../videoCapture/3rdparty/data/lbpcascades/lbpcascade_frontalface.xml");
     if(!ret){
         std::cerr << "Load lbpcascade_frontalface.xml Fail!" << std::endl;
@@ -36,7 +35,20 @@ void FFFaceDetector::init()
         std::cerr << "Load lbpcascade_profileface.xml Fail!" << std::endl;
         return;
     }
+#elif defined(Q_OS_LINUX)
+    int ret = faceDetector->load("/home/zzx/videoCapture/videoCapture/3rdparty/data/lbpcascades/lbpcascade_frontalface.xml");
+    if(!ret){
+        std::cerr << "Load lbpcascade_frontalface.xml Fail!" << std::endl;
+        return;
+    }
 
+    ret = profileDetector->load("/home/zzx/videoCapture/videoCapture/3rdparty/data/haarcascades/haarcascade_profileface.xml");
+
+    if(!ret){
+        std::cerr << "Load lbpcascade_profileface.xml Fail!" << std::endl;
+        return;
+    }
+#endif
     adapter = new FFVideoAdapter();
 
     // 创建一个小的测试图像用于预初始化

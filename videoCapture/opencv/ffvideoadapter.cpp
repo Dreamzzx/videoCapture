@@ -86,7 +86,9 @@ cv::Mat FFVideoAdapter::convertFrameToMat(AVFrame *frame)
 {
     int width = frame->width;
     int height = frame->height;
-
+    if(width %2 !=0){
+        width--;
+    }
 
     cv::Mat yuvMat(height * 3 / 2, width, CV_8UC1);
 
