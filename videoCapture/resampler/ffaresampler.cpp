@@ -33,6 +33,10 @@ void FFAResampler::init(FFAudioPars *src_, FFAudioPars *dst_)
 }
 
 void FFAResampler::resample(AVFrame *srcFrame, AVFrame **dstFrame) {
+    if (!swrCtx) {
+        std::cerr << "swr_alloc_set_opts 失败" << std::endl;
+        return; // 终止流程，避免后续崩溃
+    }
     // 获取重采样延迟
     int64_t delaySamples = swr_get_delay(swrCtx, srcPars->sampleRate);
     // 计算最大输出样本数
@@ -80,11 +84,9 @@ void FFAResampler::initSwr()
                                 0, nullptr);
 #else
     // 新版本使用AVChannelLayout和swr_alloc_set_opts2
-
-
     // 初始化默认通道布局
-    av_channel_layout_default(&srcLayout, srcPars->nbChannels);
-    av_channel_layout_default(&dstLayout, dstPars->nbChannels);
+    av_channel_layout_default(&srcLayout, 2);
+    av_channel_layout_default(&dstLayout, 2);
 
     // 创建并配置SwrContext
     int ret = swr_alloc_set_opts2(&swrCtx,
@@ -97,9 +99,6 @@ void FFAResampler::initSwr()
         swrCtx = nullptr;
     }
 
-    // 清理通道布局资源
-    av_channel_layout_uninit(&srcLayout);
-    av_channel_layout_uninit(&dstLayout);
 #endif
     if (!swrCtx) {
         std::cerr << "initSwr error!" << std::endl;
@@ -112,6 +111,9 @@ void FFAResampler::initSwr()
         swr_free(&swrCtx);
         return;
     }
+    // 清理通道布局资源
+    av_channel_layout_uninit(&srcLayout);
+    av_channel_layout_uninit(&dstLayout);
 }
 
 AVFrame* FFAResampler::allocFrame(FFAudioPars* aPars, int nbSamples, AVFrame* srcFrame)

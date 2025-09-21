@@ -765,7 +765,11 @@ void FFCapWindow::on_microphoneCheckBox_toggled(bool checked)
 void FFCapWindow::on_audioCheckBox_toggled(bool checked)
 {
     if(checked){
+#ifdef Q_OS_WIN
         FFEvent* openSourceEv = new FFOpenSourceEvent(captureCtx,AUDIO,FFCaptureURLS::AUDIO_URL,"dshow");
+#elif defined(Q_OS_LINUX)
+FFEvent* openSourceEv = new FFOpenSourceEvent(captureCtx,AUDIO,FFCaptureURLS::AUDIO_URL,"alsa");
+#endif
         evQueue->enqueue(openSourceEv);
     }
     else{

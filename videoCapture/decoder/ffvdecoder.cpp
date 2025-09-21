@@ -2,6 +2,10 @@
 #include"queue/ffvframequeue.h"
 #include"resampler/ffvresampler.h"
 
+extern "C"{
+#include <stdio.h>
+}
+
 FFVDecoder::FFVDecoder()
     :m_stop(false){
 
@@ -170,6 +174,24 @@ void FFVDecoder::initVideoPars(AVFrame *frame)
     swsvPars->pixFmtEnum = AV_PIX_FMT_YUV420P;
 }
 
+
+// void saveFrameAsPPM(AVFrame* frame, int width, int height, int index) {
+//     FILE* file = fopen(std::string("frame_") + std::to_string(index) + ".ppm", "wb");
+//     if (!file) return;
+//     fprintf(file, "P6\n%d %d\n255\n", width, height);
+//     // 注意：bgr0需转换为rgb24才能正确保存（忽略Alpha通道）
+//     for (int y = 0; y < height; y++) {
+//         for (int x = 0; x < width; x++) {
+//             uint8_t* bgr0_ptr = frame->data[0] + y * frame->linesize[0] + x * 4;
+//             fputc(bgr0_ptr[2], file); // R
+//             fputc(bgr0_ptr[1], file); // G
+//             fputc(bgr0_ptr[0], file); // B
+//         }
+//     }
+//     fclose(file);
+// }
+
+
 void FFVDecoder::decode(AVPacket *packet)
 {
     std::lock_guard<std::mutex> lock(mutex);
@@ -191,6 +213,8 @@ void FFVDecoder::decode(AVPacket *packet)
         }
 
         ret = avcodec_receive_frame(codecCtx,frame);
+
+        // save location
 
         if(ret < 0){
             if(ret == AVERROR_EOF){

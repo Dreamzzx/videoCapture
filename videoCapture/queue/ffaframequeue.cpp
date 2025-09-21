@@ -28,6 +28,10 @@ void FFAFrameQueue::enqueue(AVFrame* srcFrame) {
         av_frame_unref(srcFrame);
         return;
     }
+    if(!srcFrame){
+        return;
+    }
+
     av_frame_move_ref(destFrame, srcFrame);
     av_frame_unref(srcFrame);
     frmQueue.push(destFrame);

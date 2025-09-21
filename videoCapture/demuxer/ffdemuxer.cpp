@@ -176,7 +176,9 @@ void FFDemuxer::initDemuxer()
     else if(type == SCREEN){
         //        av_dict_set(&opts, "fflags", "nobuffer", 0);
         av_dict_set(&opts, "rtbufsize", "1024", 0);
-        //av_dict_set(&opts,"video_size","1280x799",0);
+#ifdef Q_OS_WIN
+#elif defined(Q_OS_LINUX)
+#endif
         av_dict_set(&opts,"threads","8",0);
         av_dict_set(&opts, "framerate", "30", 0);
     }
